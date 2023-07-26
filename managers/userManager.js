@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const User = require('../models/User');
-const SECRET = 'test0purposes0secret';
+exports.SECRET = 'test0purposes0secret';
 
 // register
 

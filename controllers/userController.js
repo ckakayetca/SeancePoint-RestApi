@@ -61,9 +61,9 @@ router.put('/profile', async (req, res) => {
 	const id = req.user._id;
 	const { email, username, tel } = req.body;
 
-    try {
-        await editInfo(id, {email, username, tel});
-    } catch (error) {
-        res.send(error)
-    }
+	try {
+		await editInfo(id, { email, username, tel });
+	} catch (error) {
+		res.send(error);
+	}
 });
