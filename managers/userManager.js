@@ -31,3 +31,17 @@ exports.login = async (userData) => {
 
     return token
 };
+
+// get profile info
+
+exports.getInfo = async (id) => {
+    try {
+        let user = await User.findOne({ _id: id}, {password: 0, __v: 0});
+        if(user) {
+            return res.status(200).json(user)
+        }
+
+    } catch (error) {
+        res.send(err)
+    }
+}
