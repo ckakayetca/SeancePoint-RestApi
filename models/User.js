@@ -70,7 +70,7 @@ const userSchema = new mongoose.Schema(
 	{ timestamps: { createdAt: 'created_at' } }
 );
 
-userSchema.virtual('repeatPassword').set(function (value) {
+userSchema.virtual('rePassword').set(function (value) {
 	if (value !== this.password) {
 		throw new mongoose.MongooseError('The passwords do not match!');
 	}
