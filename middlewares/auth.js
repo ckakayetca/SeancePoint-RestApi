@@ -13,17 +13,21 @@ exports.auth = async (req, res, next) => {
 
 			req.user = user;
 			req.isAuth = true;
-			next();
 		} catch (error) {
-            req.isAuth = false;
+			res.clearCookie('auth');
+			req.isAuth = false;
 			res.status(401).send({ message: 'Invalid token! ' });
 		}
+	} else {
+		req.isAuth = false;
 	}
+
+    next();
 };
 
 exports.isAuth = (req, res, next) => {
-    if(!req.user) {
-        res.status(403).send('Unauthorized!')
-    }
-    next();
-}
+	if (!req.user) {
+		res.status(403).send('Unauthorized!');
+	}
+	next();
+};

@@ -34,7 +34,7 @@ router.post('/register', async (req, res) => {
 
 // logout
 
-router.get('/logout', (req, res) => {
+router.get('/logout', isAuth, (req, res) => {
 	try {
 		res.clearCookie('auth');
 	} catch (error) {
@@ -44,7 +44,7 @@ router.get('/logout', (req, res) => {
 
 // get profile info
 
-router.get('/profile', async (req, res) => {
+router.get('/profile', isAuth, async (req, res) => {
 	const id = req.user._id;
 
 	try {
@@ -57,7 +57,7 @@ router.get('/profile', async (req, res) => {
 
 // edit profile info
 
-router.put('/profile', async (req, res) => {
+router.put('/profile', isAuth, async (req, res) => {
 	const id = req.user._id;
 	const { email, username, tel } = req.body;
 
