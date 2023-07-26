@@ -29,19 +29,19 @@ exports.login = async (userData) => {
 
 	const token = jwt.sign(payload, SECRET, { expiresIn: '1d' });
 
-    return token
+	return token;
 };
 
 // get profile info
 
 exports.getInfo = async (id) => {
-    try {
-        let user = await User.findOne({ _id: id}, {password: 0, __v: 0});
-        if(user) {
-            return res.status(200).json(user)
-        }
+	let user = await User.findOne({ _id: id }, { password: 0, __v: 0 });
+	if (!user) {
+	    throw new Error('No such user!');
+	}
+    return user;
+};
 
-    } catch (error) {
-        res.send(err)
-    }
-}
+// edit profile info
+
+exports.editInfo = async (id, data) => await User.findByIdAndUpdate(id, {email, username, tel})
