@@ -38,3 +38,5 @@ router.delete('/:id', async (req, res) => {
 router.post('/create', isAuth, async (req, res) => {
 
 });
+
+module.exports = router

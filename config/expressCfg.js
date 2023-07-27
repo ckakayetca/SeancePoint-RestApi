@@ -1,8 +1,13 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const { auth } = require('../middlewares/auth');
+const cors = require('cors');
 
 function expressCfg(app) {
+    app.use(cors({
+        origin: ['http://localhost:4200'],
+        credentials: true,
+    }));
 	app.use(express.json());
 	app.use(express.urlencoded({ extended: false }));
 	app.use(cookieParser());

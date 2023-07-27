@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const { isAuth } = require('../middlewares/auth');
 const {
 	register,
 	login,
@@ -11,12 +12,15 @@ const {
 router.post('/login', async (req, res) => {
 	try {
 		const { username, password } = req.body;
+        debugger
 
-		const token = await login({ username, password });
+		const [token, user] = await login({ username, password });
 
 		res.cookie('auth', token, { httpOnly: true });
+        res.status(200).json(user);
 	} catch (error) {
-		res.send(error);
+        console.log(error)
+        res.send( {message: error.message})
 	}
 });
 
@@ -36,7 +40,7 @@ router.post('/register', async (req, res) => {
 
 router.get('/logout', isAuth, (req, res) => {
 	try {
-		res.clearCookie('auth');
+		res.clearCookie('auth').status(204).send({ message: 'Logged out!'});
 	} catch (error) {
 		res.send(error);
 	}
@@ -67,3 +71,5 @@ router.put('/profile', isAuth, async (req, res) => {
 		res.send(error);
 	}
 });
+
+module.exports = router;

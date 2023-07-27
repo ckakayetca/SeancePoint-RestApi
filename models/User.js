@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const saltRounds = 5;
 const emailRegex =
-	/^([^\s@!#$%^&*()/\\\|=\-\+]){6,10}@(gmail|abv|hotmail)\.(bg|com|org)$/g;
+	/^\w+@abv.bg$/g;
 
 const userSchema = new mongoose.Schema(
 	{
@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema(
 			unique: true,
 			validate: {
 				validator: function (email) {
-					return emailRegex.test(email);
+					return true;
 				},
 				message: () => `Invalid email!`,
 			},
@@ -30,7 +30,7 @@ const userSchema = new mongoose.Schema(
 			minlength: [4, 'Username should be at least 4 characters'],
 			validate: {
 				validator: function (v) {
-					return /w+/g.test(v);
+					return /\w+/g.test(v);
 				},
 				message: (v) =>
 					`${v.value} must contain only letters, digits or underscores`,

@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const User = require('../models/User');
-exports.SECRET = 'test0purposes0secret';
+const { SECRET } = require('../config/secret')
 
 // register
 
@@ -10,7 +10,7 @@ exports.register = (userData) => User.create(userData);
 // login
 
 exports.login = async (userData) => {
-	const user = await User.findOne({ username: userData.username });
+	let user = await User.findOne({ username: userData.username });
 
 	if (!user) {
 		throw new Error('Incorrect credentials!');
@@ -27,9 +27,13 @@ exports.login = async (userData) => {
 		_id: user._id,
 	};
 
+    user = JSON.parse(JSON.stringify(user))
+    const { password, __v, ...userDetails} = user
+    console.log(userDetails)
+
 	const token = jwt.sign(payload, SECRET, { expiresIn: '1d' });
 
-	return token;
+	return [token, userDetails];
 };
 
 // get profile info
