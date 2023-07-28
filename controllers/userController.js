@@ -20,7 +20,7 @@ router.post('/login', async (req, res) => {
         res.status(200).json(user);
 	} catch (error) {
         console.log(error)
-        res.send( {message: error.message})
+        res.status(401).send({ message: error.message})
 	}
 });
 
@@ -32,7 +32,8 @@ router.post('/register', async (req, res) => {
 
 		await register({ email, username, password, tel, rePassword });
 	} catch (error) {
-		res.send(error);
+		console.log(error)
+		res.send({ message: error.message });
 	}
 });
 
@@ -48,14 +49,14 @@ router.get('/logout', isAuth, (req, res) => {
 
 // get profile info
 
-router.get('/profile', isAuth, async (req, res) => {
-	const id = req.user._id;
+router.get('/profile', async (req, res) => {
+	const id = req.user?._id;
 
 	try {
 		let user = await getInfo(id);
 		res.status(200).json(user);
 	} catch (error) {
-		res.send(error);
+		res.send(undefined)
 	}
 });
 
