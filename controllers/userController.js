@@ -39,7 +39,7 @@ router.post('/register', async (req, res) => {
 
 // logout
 
-router.get('/logout', isAuth, (req, res) => {
+router.get('/logout', (req, res) => {
 	try {
 		res.clearCookie('auth').status(204).send({ message: 'Logged out!'});
 	} catch (error) {

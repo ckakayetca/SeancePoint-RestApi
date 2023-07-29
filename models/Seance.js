@@ -17,7 +17,7 @@ const seanceSchema = new mongoose.Schema(
 			required: true,
 			validate: {
 				validator: (v) => {
-					return /[a-zA-z\s]/g.test(v);
+					return /[a-zA-Z\s]+/g.test(v);
 				},
 				message: `Type should contain only letters and whitespaces!`,
 			},
@@ -27,15 +27,24 @@ const seanceSchema = new mongoose.Schema(
 			required: true,
 			min: [0, 'Price cannot be negative'],
 		},
-		length: {
+		duration: {
 			type: Number,
 			required: true,
-			min: [1, 'Length of seance cannot be less than 1 hour'],
+			min: [1, 'Duration of seance cannot be less than 1 hour'],
 		},
 		postedBy: {
 			type: mongoose.Types.ObjectId,
 			ref: 'User',
 		},
+		reviews: [
+			{
+				type: mongoose.Types.ObjectId,
+				ref: 'Review',
+			},
+		],
+		appointments: [{
+			type: Date
+		}],
 	},
 	{ timestamps: { createdAt: 'created_at' } }
 );
