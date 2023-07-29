@@ -48,7 +48,12 @@ exports.edit = async (id, data) => await Seance.findByIdAndUpdate(id, data);
 
 // delete seance
 
-exports.del = async (id) => await Seance.findByIdAndDelete(id);
+exports.del = async (id) =>
+	Seance.findByIdAndDelete(id).then(async (seance) => {
+		const newUser = await User.findByIdAndUpdate(seance.postedBy, {
+			$pull: { seances: seance._id },
+		});
+	});
 
 // make appointment
 

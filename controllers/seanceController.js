@@ -180,6 +180,7 @@ router.put('/:id/reviews/:reviewId', isAuth, async (req, res) => {
 
 	try {
 		const review = await manager.getReview(reviewId);
+
 		console.log(review)
 
 		if (review.postedBy._id.toString() !== userId.toString()) {
