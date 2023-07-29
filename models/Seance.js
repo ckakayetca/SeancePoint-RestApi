@@ -43,7 +43,8 @@ const seanceSchema = new mongoose.Schema(
 			},
 		],
 		appointments: [{
-			type: Date
+			type: mongoose.Types.ObjectId,
+			ref: 'Appointment',
 		}],
 	},
 	{ timestamps: { createdAt: 'created_at' } }

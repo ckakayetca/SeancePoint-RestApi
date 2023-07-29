@@ -34,6 +34,7 @@ exports.getAll = async (type) => {
 exports.getOne = async (id) =>
 	await Seance.findById(id)
 		.populate('postedBy', { password: 0, __v: 0 })
+        .populate('appointments')
 		.lean();
 
 // get someone's seances

@@ -104,14 +104,16 @@ router.post('/create', isAuth, async (req, res) => {
 // make an appointment
 
 router.post('/:id/appointments', isAuth, async (req, res) => {
-    const seanceId = req.params._id
+    const seanceId = req.params.id
     const userId = req.user._id
-    const date = req.body
+    const {
+        date
+    } = req.body
 
     try {
         const providerId = await manager.getOne(seanceId).then(s => s.postedBy._id);
 
-        if(userId == providerId) {
+        if(userId.toString() == providerId.toString()) {
             throw new Error('You cannot make an appointment for your own seance!')
         }
 

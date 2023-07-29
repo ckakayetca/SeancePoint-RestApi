@@ -39,7 +39,7 @@ exports.login = async (userData) => {
 // get profile info
 
 exports.getInfo = async (id) => {
-	let user = await User.findOne({ _id: id }, { password: 0, __v: 0 });
+	let user = await User.findOne({ _id: id }, { password: 0, __v: 0 }).populate('appointments');
 	if (!user) {
 	    throw new Error('No such user!');
 	}
