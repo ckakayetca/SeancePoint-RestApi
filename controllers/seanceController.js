@@ -163,7 +163,6 @@ router.get('/:id/reviews', async (req, res) => {
     console.log(`GET ${seanceId}/reviews`)
 	try {
 		let reviews = await manager.getReviews(seanceId);
-        console.log(reviews)
 		res.status(200).json(reviews);
 	} catch (error) {
         console.log(error)
@@ -172,7 +171,7 @@ router.get('/:id/reviews', async (req, res) => {
 });
 
 // edit review
-router.put('/:id/reviews/:reviewId', isAuth, (req, res) => {
+router.put('/:id/reviews/:reviewId', isAuth, async (req, res) => {
 	const seanceId = req.params.id;
 	const reviewId = req.params.reviewId;
 	const userId = req.user._id;
@@ -180,29 +179,31 @@ router.put('/:id/reviews/:reviewId', isAuth, (req, res) => {
 	const { rating, text } = req.body;
 
 	try {
-		const review = manager.getReview(reviewId);
+		const review = await manager.getReview(reviewId);
+		console.log(review)
 
-		if (review.postedBy._id !== userId) {
+		if (review.postedBy._id.toString() !== userId.toString()) {
 			throw new Error('You cannot edit this review!');
 		}
 		const seance = manager.editReview(reviewId, { rating, text });
 
 		res.status(200).json(seance);
 	} catch (error) {
+		console.log(error)
 		res.status(401).json({ message: error.message });
 	}
 });
 
 // delete review
-router.delete('/:id/reviews/:reviewId', (req, res) => {
+router.delete('/:id/reviews/:reviewId', async (req, res) => {
 	const seanceId = req.params.id;
 	const reviewId = req.params.reviewId;
 	const userId = req.user._id;
 
 	try {
-		const review = manager.getReview(reviewId);
+		const review = await manager.getReview(reviewId);
 
-		if (userId !== review.postedBy._id) {
+		if (userId.toString() !== review.postedBy._id.toString()) {
 			throw new Error('You cannot delete this review!');
 		}
 
