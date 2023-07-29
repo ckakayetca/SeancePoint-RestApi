@@ -34,7 +34,7 @@ exports.getAll = async (type) => {
 exports.getOne = async (id) =>
 	await Seance.findById(id)
 		.populate('postedBy', { password: 0, __v: 0 })
-        .populate('appointments')
+		.populate('appointments')
 		.lean();
 
 // get someone's seances
@@ -60,9 +60,9 @@ exports.appoint = (data) =>
 		const newSeance = await Seance.findByIdAndUpdate(appointment.seanceId, {
 			$push: { appointments: appointment._id },
 		});
-        const newProvider = await User.findByIdAndUpdate(appointment.providerId, {
-            $push: { appointments: appointment._id}
-        })
+		const newProvider = await User.findByIdAndUpdate(appointment.providerId, {
+			$push: { appointments: appointment._id },
+		});
 
 		return appointment;
 	});
@@ -70,7 +70,9 @@ exports.appoint = (data) =>
 // get my appointments
 
 exports.getMyAppointments = async (id) =>
-	await Appointment.find({ userId: id }).populate('providerId', {password: 0, __v: 0}).lean();
+	await Appointment.find({ userId: id })
+		.populate('providerId', { password: 0, __v: 0 })
+		.lean();
 
 // cancel appointment
 
@@ -79,29 +81,41 @@ exports.cancelApp = (id) =>
 		const newUser = await User.findByIdAndUpdate(app.userId, {
 			$pull: { appointments: app._id },
 		});
-        const newOwner = await User.findByIdAndUpdate(app.providerId, {
-            $pull: { appointments: app._id }
-        });
-        const newSeance = await Seance.findByIdAndUpdate(app.seanceId, {
-            $pull: { appointments: app._id}
-        })
+		const newOwner = await User.findByIdAndUpdate(app.providerId, {
+			$pull: { appointments: app._id },
+		});
+		const newSeance = await Seance.findByIdAndUpdate(app.seanceId, {
+			$pull: { appointments: app._id },
+		});
 
-        return app
+		return app;
 	});
 
 // leave review
 
 exports.createReview = (data) =>
 	Review.create(data).then(async (review) => {
-		const newSeance = await Seance.findByIdAndUpdate(appointment.seanceId, {
+		const newSeance = await Seance.findByIdAndUpdate(review.seance, {
 			$push: { reviews: review._id },
 		});
+		const newUser = await User.findByIdAndUpdate(review.postedBy, {
+			$push: { reviews: review._id },
+		});
+
+		return review;
 	});
 
 // get review
 
 exports.getReview = async (id) =>
 	await Review.findById(id).populate('postedBy', { password: 0, __v: 0 });
+
+// get reviews
+
+exports.getReviews = async (id) =>
+	await Review.find({ seance: id })
+		.populate('postedBy', { password: 0, __v: 0 })
+		.lean();
 
 // edit review
 
