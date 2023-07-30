@@ -47,7 +47,6 @@ router.put('/:id', isAuth, async (req, res) => {
 
 	try {
 		const seance = await manager.getOne(seanceId);
-		console.log(req.user._id, seance.postedBy._id);
 		if (req.user._id.toString() !== seance.postedBy._id.toString()) {
 			throw new Error('You are not allowed to edit this seance!');
 		}
@@ -68,10 +67,8 @@ router.put('/:id', isAuth, async (req, res) => {
 router.delete('/:id', isAuth, async (req, res) => {
 	try {
 		const resp = await manager.del(req.params.id);
-		console.log(resp);
 		res.status(200).json(resp);
 	} catch (error) {
-		console.log(error);
 		res.status(401).send({ message: error.message });
 	}
 });
@@ -165,7 +162,6 @@ router.get('/:id/reviews', async (req, res) => {
 		let reviews = await manager.getReviews(seanceId);
 		res.status(200).json(reviews);
 	} catch (error) {
-        console.log(error)
         res.status(401).json(error)
     }
 });
@@ -180,9 +176,6 @@ router.put('/:id/reviews/:reviewId', isAuth, async (req, res) => {
 
 	try {
 		const review = await manager.getReview(reviewId);
-
-		console.log(review)
-
 		if (review.postedBy._id.toString() !== userId.toString()) {
 			throw new Error('You cannot edit this review!');
 		}
@@ -190,7 +183,6 @@ router.put('/:id/reviews/:reviewId', isAuth, async (req, res) => {
 
 		res.status(200).json(seance);
 	} catch (error) {
-		console.log(error)
 		res.status(401).json({ message: error.message });
 	}
 });

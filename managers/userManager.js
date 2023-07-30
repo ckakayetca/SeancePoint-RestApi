@@ -29,8 +29,6 @@ exports.login = async (userData) => {
 
     user = JSON.parse(JSON.stringify(user))
     const { password, __v, ...userDetails} = user
-    console.log(userDetails)
-
 	const token = jwt.sign(payload, SECRET, { expiresIn: '1d' });
 
 	return [token, userDetails];
@@ -49,6 +47,5 @@ exports.getInfo = async (id) => {
 // edit profile info
 
 exports.editInfo = async (id, data) => User.findByIdAndUpdate(id, data).then((user) => {
-	console.log(user);
 	return user
 })

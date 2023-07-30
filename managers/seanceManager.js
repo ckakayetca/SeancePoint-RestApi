@@ -10,8 +10,6 @@ exports.create = (data, ownerId) =>
 		const newUser = await User.findByIdAndUpdate(ownerId, {
 			$push: { seances: seance._id },
 		});
-		console.log(newUser);
-		console.log(seance);
 		return seance;
 	});
 
@@ -102,10 +100,6 @@ exports.cancelApp = (id) =>
 		const newSeance = await Seance.findByIdAndUpdate(app.seanceId, {
 			$pull: { appointments: app._id },
 		});
-		console.log(newUser);
-		console.log(newOwner);
-		console.log(newSeance);
-
 		return app;
 	});
 

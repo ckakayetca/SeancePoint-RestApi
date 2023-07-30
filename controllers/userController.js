@@ -19,7 +19,6 @@ router.post('/login', async (req, res) => {
 		res.cookie('auth', token, { httpOnly: true });
 		res.status(200).json(user);
 	} catch (error) {
-		console.log(error);
 		res.status(401).send({ message: error.message });
 	}
 });
@@ -32,7 +31,6 @@ router.post('/register', async (req, res) => {
 
 		await register({ email, username, password, tel, rePassword });
 	} catch (error) {
-		console.log(error);
 		res.send({ message: error.message });
 	}
 });
@@ -65,9 +63,6 @@ router.get('/profile', async (req, res) => {
 router.put('/profile', isAuth, async (req, res) => {
 	const id = req.user._id;
 	const { email, username, tel } = req.body;
-
-	console.log(id, email, username, tel);
-
 	console.log('PUT /PROFILE');
 	try {
 		let newUser = await editInfo(id, { email, username, tel });
