@@ -196,7 +196,7 @@ router.put('/:id/reviews/:reviewId', isAuth, async (req, res) => {
 });
 
 // delete review
-router.delete('/:id/reviews/:reviewId', async (req, res) => {
+router.delete('/:id/reviews/:reviewId', isAuth, async (req, res) => {
 	const seanceId = req.params.id;
 	const reviewId = req.params.reviewId;
 	const userId = req.user._id;

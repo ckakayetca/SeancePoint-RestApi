@@ -3,12 +3,11 @@ const router = require('express').Router();
 const manager = require('../managers/seanceManager');
 
 // get my appointments
-router.get('/', isAuth, (req, res) => {
+router.get('/', isAuth, async (req, res) => {
     const myId = req.user._id;
 
     try {
-        const apps = manager.getMyAppointments(myId)
-
+        const apps = await manager.getMyAppointments(myId)
         res.status(200).json(apps)
     } catch (error) {
         res.status(401).json({ message: error.message })
@@ -21,7 +20,7 @@ router.delete('/:id', isAuth, (req, res) => {
     const appId = req.params.id;
 
     try {
-        const resp = manager.cancelApp(id)
+        const resp = manager.cancelApp(appId)
         res.status(200).json(resp)
     } catch (error) {
         res.status(401).json({ message: error.message })

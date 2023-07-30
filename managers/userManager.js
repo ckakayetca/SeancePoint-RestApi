@@ -48,4 +48,7 @@ exports.getInfo = async (id) => {
 
 // edit profile info
 
-exports.editInfo = async (id, data) => await User.findByIdAndUpdate(id, {email, username, tel})
+exports.editInfo = async (id, data) => User.findByIdAndUpdate(id, data).then((user) => {
+	console.log(user);
+	return user
+})

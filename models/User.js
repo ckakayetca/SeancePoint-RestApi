@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const saltRounds = 5;
 const emailRegex =
-	/^\w+@abv.bg$/g;
+	/^\w+@abv.bg$/;
 
 const userSchema = new mongoose.Schema(
 	{
@@ -24,7 +24,7 @@ const userSchema = new mongoose.Schema(
 			minlength: [4, 'Username should be at least 4 characters'],
 			validate: {
 				validator: function (v) {
-					return /^\w+$/g.test(v);
+					return /^\w+$/.test(v);
 				},
 				message: (v) =>
 					`${v.value} must contain only letters, digits or underscores`,
@@ -36,7 +36,7 @@ const userSchema = new mongoose.Schema(
 			minlength: [5, 'Password should be at least 5 characters'],
 			validate: {
 				validator: function (v) {
-					return /^\w+$/g.test(v);
+					return /^\w+$/.test(v);
 				},
 				message: (v) =>
 					`${v.value} must contain only letters, digits or underscores`,
@@ -47,7 +47,7 @@ const userSchema = new mongoose.Schema(
 			required: true,
 			validate: {
 				validator: function (v) {
-					return /\+359\d{9}/g.test(v);
+					return /^\+359\d{9}$/.test(v);
 				},
 				message: 'Phone number should start with +359 and have 9 digits afterwards'
 			}

@@ -53,6 +53,8 @@ exports.del = async (id) =>
 		const newUser = await User.findByIdAndUpdate(seance.postedBy, {
 			$pull: { seances: seance._id },
 		});
+
+		return seance
 	});
 
 // make appointment
@@ -77,6 +79,7 @@ exports.appoint = (data) =>
 exports.getMyAppointments = async (id) =>
 	await Appointment.find({ userId: id })
 		.populate('providerId', { password: 0, __v: 0 })
+		.populate('seanceId')
 		.lean();
 
 // cancel appointment
@@ -92,6 +95,9 @@ exports.cancelApp = (id) =>
 		const newSeance = await Seance.findByIdAndUpdate(app.seanceId, {
 			$pull: { appointments: app._id },
 		});
+		console.log(newUser);
+		console.log(newOwner);
+		console.log(newSeance);
 
 		return app;
 	});

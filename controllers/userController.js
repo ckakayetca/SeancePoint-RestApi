@@ -12,15 +12,15 @@ const {
 router.post('/login', async (req, res) => {
 	try {
 		const { username, password } = req.body;
-        debugger
+		debugger;
 
 		const [token, user] = await login({ username, password });
 
 		res.cookie('auth', token, { httpOnly: true });
-        res.status(200).json(user);
+		res.status(200).json(user);
 	} catch (error) {
-        console.log(error)
-        res.status(401).send({ message: error.message})
+		console.log(error);
+		res.status(401).send({ message: error.message });
 	}
 });
 
@@ -32,7 +32,7 @@ router.post('/register', async (req, res) => {
 
 		await register({ email, username, password, tel, rePassword });
 	} catch (error) {
-		console.log(error)
+		console.log(error);
 		res.send({ message: error.message });
 	}
 });
@@ -41,7 +41,7 @@ router.post('/register', async (req, res) => {
 
 router.get('/logout', (req, res) => {
 	try {
-		res.clearCookie('auth').status(204).send({ message: 'Logged out!'});
+		res.clearCookie('auth').status(204).send({ message: 'Logged out!' });
 	} catch (error) {
 		res.send(error);
 	}
@@ -56,7 +56,7 @@ router.get('/profile', async (req, res) => {
 		let user = await getInfo(id);
 		res.status(200).json(user);
 	} catch (error) {
-		res.send(undefined)
+		res.send(undefined);
 	}
 });
 
@@ -66,8 +66,13 @@ router.put('/profile', isAuth, async (req, res) => {
 	const id = req.user._id;
 	const { email, username, tel } = req.body;
 
+	console.log(id, email, username, tel);
+
+	console.log('PUT /PROFILE');
 	try {
-		await editInfo(id, { email, username, tel });
+		let newUser = await editInfo(id, { email, username, tel });
+
+		res.status(200).json(newUser);
 	} catch (error) {
 		res.send(error);
 	}
