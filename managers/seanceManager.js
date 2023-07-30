@@ -76,11 +76,18 @@ exports.appoint = (data) =>
 
 // get my appointments
 
-exports.getMyAppointments = async (id) =>
-	await Appointment.find({ userId: id })
+exports.getMyAppointments = async (id) => {
+	let array1 = await Appointment.find({ userId: id })
 		.populate('providerId', { password: 0, __v: 0 })
 		.populate('seanceId')
 		.lean();
+	let array2 = await Appointment.find({ providerId: id })
+	.populate('providerId', { password: 0, __v: 0 })
+	.populate('seanceId')
+	.lean();
+
+	return array1.concat(array2)
+}
 
 // cancel appointment
 
