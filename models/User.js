@@ -7,12 +7,6 @@ const emailRegex =
 const userSchema = new mongoose.Schema(
 	{
 		email: {
-			// * email must match this regex:
-			// between 6 and 10 characters (excluding spaces) @!#$%^&*()/\|=-+
-			// @
-			// gmail / abv / hotmail
-			// .
-			// bg / com / org
 			type: String,
 			required: true,
 			unique: true,
@@ -30,7 +24,7 @@ const userSchema = new mongoose.Schema(
 			minlength: [4, 'Username should be at least 4 characters'],
 			validate: {
 				validator: function (v) {
-					return /\w+/g.test(v);
+					return /^\w+$/g.test(v);
 				},
 				message: (v) =>
 					`${v.value} must contain only letters, digits or underscores`,
@@ -42,7 +36,7 @@ const userSchema = new mongoose.Schema(
 			minlength: [5, 'Password should be at least 5 characters'],
 			validate: {
 				validator: function (v) {
-					return /\w+/g.test(v);
+					return /^\w+$/g.test(v);
 				},
 				message: (v) =>
 					`${v.value} must contain only letters, digits or underscores`,

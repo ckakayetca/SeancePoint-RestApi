@@ -3,7 +3,7 @@ const router = require('express').Router();
 const manager = require('../managers/seanceManager');
 
 // get my appointments
-router.get('/my-appointments', isAuth, (req, res) => {
+router.get('/', isAuth, (req, res) => {
     const myId = req.user._id;
 
     try {
