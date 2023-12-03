@@ -16,7 +16,7 @@ router.post('/login', async (req, res) => {
 
 		const [token, user] = await login({ username, password });
 
-		res.cookie('auth', token, { httpOnly: true });
+		res.cookie('auth', token, { httpOnly: false });
 		res.status(200).json(user);
 	} catch (error) {
 		res.status(401).send({ message: error.message });
@@ -54,8 +54,11 @@ router.get('/profile', async (req, res) => {
 
 	try {
 		let user = await getInfo(id);
+		console.log(user)
 		res.status(200).json(user);
 	} catch (error) {
+		console.log(error.message)
+		console.log('response is UNDEFINED')
 		res.send(undefined);
 	}
 });
