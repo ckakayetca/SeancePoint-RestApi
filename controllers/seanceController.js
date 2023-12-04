@@ -77,9 +77,9 @@ router.delete('/:id', isAuth, async (req, res) => {
 router.post('/create', isAuth, async (req, res) => {
 	console.log('POST /SEANCES/CREATE');
 	const { title, type, price, duration, description } = req.body;
-	let id = req.user._id;
-
+	console.log(req.user)
 	try {
+		let id = req.user._id;
 		const post = await manager.create(
 			{
 				title,
@@ -93,7 +93,7 @@ router.post('/create', isAuth, async (req, res) => {
 
 		res.status(200).json(post);
 	} catch (error) {
-		res.send(error);
+		console.log(error.message)
 	}
 });
 
@@ -183,6 +183,7 @@ router.put('/:id/reviews/:reviewId', isAuth, async (req, res) => {
 
 		res.status(200).json(seance);
 	} catch (error) {
+		console.log(error)
 		res.status(401).json({ message: error.message });
 	}
 });

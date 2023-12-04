@@ -8,7 +8,7 @@ This API has the following endpoints:
 - GET /seances/:id/reviews - GET SEANCE REVIEWS
 
 # SEANCES private (logged in)
-- POST /seances - POST A NEW SEANCE
+- POST /seances/create - POST A NEW SEANCE
 - GET /seances/my-seances - GET MY SEANCES
 - PUT /seances/:id - EDIT SEANCE
 - DELETE /seances/:id - DELETE SEANCE

@@ -27,8 +27,12 @@ exports.auth = async (req, res, next) => {
 };
 
 exports.isAuth = (req, res, next) => {
+	console.log('auth middleware')
 	if (!req.user) {
+		console.log('403')
 		res.status(403).send('Unauthorized!');
+
+		return
 	}
 	next();
 };
