@@ -33,9 +33,10 @@ router.get('/:id', async (req, res) => {
 	try {
 		const seance = await manager.getOne(seanceId);
 
+		console.log(seance)
 		res.status(200).json(seance);
 	} catch (error) {
-		res.send({ message: error.message });
+		res.status(404).send({message: '404 Not Found'})
 	}
 });
 
