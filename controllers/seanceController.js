@@ -58,6 +58,8 @@ router.put('/:id', isAuth, async (req, res) => {
 			duration,
 			description,
 		});
+
+		res.status(200).json(updatedSeance)
 	} catch (error) {
 		res.status(401).json({ message: error.message });
 	}
